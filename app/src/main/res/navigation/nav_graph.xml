@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.ryangunn.ridetest.home.HomeFragment"
+        android:label="HomeFragment">
+
+        <action
+            android:id="@+id/showFinishDialog"
+            app:destination="@id/finish_dialog">
+
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.ryangunn.ridetest.history.HistoryFragment"
+        android:label="HistoryFragment">
+
+    </fragment>
+
+    <dialog
+        android:id="@+id/finish_dialog"
+        android:name="com.ryangunn.ridetest.FinishDialog">
+
+        <argument
+            android:name="moveId"
+            app:argType="long" />
+
+
+    </dialog>
+
+
+</navigation>

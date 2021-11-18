@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">RideTest</string>
+    <string name="please_select_your_destination">Please select your destination</string>
+    <string name="history">History</string>
+    <string name="home">Home</string>
+    <string name="start">Start</string>
+    <string name="clear">Clear</string>
+    <string name="finish">Finish</string>
+    <string name="pause">Pause</string>
+    <string name="movement_recap">Movement Recap:</string>
+    <string name="okay">Okay</string>
+    <string name="there_are_no_moves_at_the_moment">There are no moves at the moment</string>
+</resources>
