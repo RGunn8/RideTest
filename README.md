@@ -29,6 +29,8 @@ to my current location the distance was 0. So I just cacluated the distance betw
 
 (PS if for some reason you get an error that said the BuildConfig file has been build twice just clean the project and re run the project) 
 
+Also please make sure your Android Studio is using Java 11, if you are using Java 8 the project will not build.
+
 [![Screen-Shot-2021-11-18-at-10-29-16-AM.png](https://i.postimg.cc/dDMJ9qXL/Screen-Shot-2021-11-18-at-10-29-16-AM.png)](https://postimg.cc/FkZtrQh4)
 
 [![Screen-Shot-2021-11-18-at-10-28-55-AM.png](https://i.postimg.cc/MZnRtdNS/Screen-Shot-2021-11-18-at-10-28-55-AM.png)](https://postimg.cc/DmK8wd7j)
