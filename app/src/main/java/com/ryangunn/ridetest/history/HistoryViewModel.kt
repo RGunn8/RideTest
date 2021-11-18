@@ -3,20 +3,20 @@ package com.ryangunn.ridetest.history
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ryangunn.ridetest.database.MoveDatabase
-import com.ryangunn.ridetest.database.model.Moves
+import com.ryangunn.ridetest.database.RouteDatabase
+import com.ryangunn.ridetest.database.model.Route
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class HistoryViewModel : ViewModel() {
-    private val _moves: MutableStateFlow<List<Moves>> = MutableStateFlow(listOf())
-    val moves: StateFlow<List<Moves>> = _moves
-    fun getMoves(context: Context) {
+    private val _route: MutableStateFlow<List<Route>> = MutableStateFlow(listOf())
+    val route: StateFlow<List<Route>> = _route
+    fun getRoute(context: Context) {
         viewModelScope.launch {
-            val movesList = MoveDatabase.getDatabase(context)?.moveDAO()?.getAll()
-            movesList?.let {
-                _moves.value = movesList
+            val routeList = RouteDatabase.getDatabase(context)?.routeDAO()?.getAll()
+            routeList?.let {
+                _route.value = routeList
             }
         }
 

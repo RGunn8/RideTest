@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ryangunn.ridetest.database.model.Moves
+import com.ryangunn.ridetest.database.model.Route
 import com.ryangunn.ridetest.databinding.FragmentHistoryBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -33,13 +33,13 @@ class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         historyViewModel = ViewModelProvider(this)[HistoryViewModel::class.java]
-        historyViewModel.getMoves(requireContext())
+        historyViewModel.getRoute(requireContext())
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                historyViewModel.moves.collect {
+                historyViewModel.route.collect {
                     binding.apply {
                         if (it.isEmpty()) {
-                            displayNoMoveTextView()
+                            displayNoRouteTextView()
                         } else {
                             showRecyclerView(it)
                         }
@@ -49,18 +49,18 @@ class HistoryFragment : Fragment() {
         }
     }
 
-    private fun FragmentHistoryBinding.showRecyclerView(it: List<Moves>) {
+    private fun FragmentHistoryBinding.showRecyclerView(it: List<Route>) {
         historyRecyclerView.visibility = View.VISIBLE
-        noMovesTextView.visibility = View.GONE
+        noRouteTextView.visibility = View.GONE
         val adapter = HistoryAdapter(it)
         historyRecyclerView.adapter = adapter
         historyRecyclerView.layoutManager =
             LinearLayoutManager(requireContext())
     }
 
-    private fun FragmentHistoryBinding.displayNoMoveTextView() {
+    private fun FragmentHistoryBinding.displayNoRouteTextView() {
         historyRecyclerView.visibility = View.GONE
-        noMovesTextView.visibility = View.VISIBLE
+        noRouteTextView.visibility = View.VISIBLE
     }
 
 

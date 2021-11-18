@@ -5,24 +5,24 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.ryangunn.ridetest.database.model.Moves
+import com.ryangunn.ridetest.database.model.Route
 import com.ryangunn.ridetest.util.BitmapRoomConverter
 
-@Database(entities = [Moves::class], version = 1)
+@Database(entities = [Route::class], version = 1)
 @TypeConverters(BitmapRoomConverter::class)
-abstract class MoveDatabase : RoomDatabase() {
-    abstract fun moveDAO(): MoveDAO
+abstract class RouteDatabase : RoomDatabase() {
+    abstract fun routeDAO(): RouteDAO
 
     companion object {
-        private var INSTANCE: MoveDatabase? = null
-        fun getDatabase(context: Context): MoveDatabase? {
+        private var INSTANCE: RouteDatabase? = null
+        fun getDatabase(context: Context): RouteDatabase? {
             if (INSTANCE == null) {
                 synchronized(this) {
                     INSTANCE =
                         Room.databaseBuilder(
                             context.applicationContext,
-                            MoveDatabase::class.java,
-                            "move_database"
+                            RouteDatabase::class.java,
+                            "route_database"
                         )
                             .build()
                 }

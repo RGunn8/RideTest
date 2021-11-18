@@ -28,7 +28,7 @@ import com.ryangunn.ridetest.LocationService.Companion.startLocation
 import com.ryangunn.ridetest.LocationService.Companion.timeInStopWatchTime
 import com.ryangunn.ridetest.LocationService.Companion.timeRunInMillis
 import com.ryangunn.ridetest.R
-import com.ryangunn.ridetest.database.model.Moves
+import com.ryangunn.ridetest.database.model.Route
 import com.ryangunn.ridetest.databinding.FragmentHomeBinding
 import com.ryangunn.ridetest.util.Constants
 import com.ryangunn.ridetest.util.Extensions.hasLocationPermission
@@ -180,12 +180,12 @@ class HomeFragment : Fragment() {
         binding.apply {
             finishButton.visibility = View.VISIBLE
             finishButton.setOnClickListener {
-                finishMove()
+                finishRoute()
             }
         }
     }
 
-    private fun finishMove() {
+    private fun finishRoute() {
         binding.apply {
             sendCommand(Constants.ACTION_STOP_SERVICE)
             map?.setOnMapClickListener {
@@ -194,13 +194,13 @@ class HomeFragment : Fragment() {
             hideFinishButton()
             zoomToSeeWholeTrack()
             map?.snapshot {
-                val move = Moves(
+                val route = Route(
                     timeTextView.text.toString(),
                     currentDistance,
                     it,
                     Calendar.getInstance().timeInMillis
                 )
-                homeViewModel.insertMove(move, requireContext())
+                homeViewModel.insertRoute(route, requireContext())
                 sendCommand(Constants.ACTION_INITIAL)
                 map?.clear()
             }
@@ -244,7 +244,7 @@ class HomeFragment : Fragment() {
                 }
 
                 launch {
-                    homeViewModel.newMoveIdFlow.collect {
+                    homeViewModel.newRouteIdFlow.collect {
                         findNavController().navigate(HomeFragmentDirections.showFinishDialog(it))
                     }
                 }
@@ -281,7 +281,7 @@ class HomeFragment : Fragment() {
                 launch {
                     LocationService.finishedRide.collect {
                         if (it) {
-                            finishMove()
+                            finishRoute()
                         }
                     }
                 }

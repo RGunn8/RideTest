@@ -10,8 +10,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
-import com.ryangunn.ridetest.database.MoveDatabase
-import com.ryangunn.ridetest.database.model.Moves
+import com.ryangunn.ridetest.database.RouteDatabase
+import com.ryangunn.ridetest.database.model.Route
 import com.ryangunn.ridetest.databinding.DialogFinishBinding
 import kotlinx.coroutines.launch
 
@@ -42,21 +42,21 @@ class FinishDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                val move =
-                    MoveDatabase.getDatabase(requireContext())?.moveDAO()?.getMove(args.moveId)
-                move?.let {
-                    displayMove(move)
+                val route =
+                    RouteDatabase.getDatabase(requireContext())?.routeDAO()?.getRoute(args.routeId)
+                route?.let {
+                    displayRoute(route)
                 }
             }
         }
     }
 
-    private fun displayMove(move: Moves) {
+    private fun displayRoute(route: Route) {
         binding.apply {
-            moveImageView.setImageBitmap(move.img)
+            moveImageView.setImageBitmap(route.img)
             distanceTextView.text =
-                getString(R.string.move_total_distance, move.getDistanceInString())
-            timeTextView.text = getString(R.string.move_total_time, move.time)
+                getString(R.string.move_total_distance, route.getDistanceInString())
+            timeTextView.text = getString(R.string.move_total_time, route.time)
             okayTextView.setOnClickListener { dismiss() }
         }
     }

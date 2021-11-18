@@ -27,7 +27,7 @@
         android:name="com.ryangunn.ridetest.FinishDialog">
 
         <argument
-            android:name="moveId"
+            android:name="routeId"
             app:argType="long" />
 
 

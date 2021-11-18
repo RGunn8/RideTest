@@ -10,10 +10,10 @@
         android:layout_height="match_parent" />
 
     <TextView
-        android:id="@+id/no_moves_text_view"
+        android:id="@+id/no_route_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/there_are_no_moves_at_the_moment"
+        android:text="@string/there_are_no_routes_at_the_moment"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:visibility="gone"

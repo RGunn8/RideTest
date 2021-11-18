@@ -8,14 +8,14 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @Entity
-data class Moves(
+data class Route(
     val time: String,
     val distance: Double,
     var img: Bitmap? = null,
     var timestamp: Long = 0L,
 ) {
     @PrimaryKey(autoGenerate = true)
-    var moveId: Long = 0
+    var routeId: Long = 0
 
     fun getDate(): String {
         val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())

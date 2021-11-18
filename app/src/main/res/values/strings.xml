@@ -7,9 +7,9 @@
     <string name="clear">Clear</string>
     <string name="finish">Finish</string>
     <string name="pause">Pause</string>
-    <string name="movement_recap">Movement Recap:</string>
+    <string name="route_recap">Route Recap:</string>
     <string name="okay">Okay</string>
-    <string name="there_are_no_moves_at_the_moment">There are no moves at the moment</string>
+    <string name="there_are_no_routes_at_the_moment">There are no routes at the moment</string>
     <string name="move_date">Date: %1$s</string>
     <string name="move_total_time">Total Time: %1$s</string>
     <string name="move_total_distance">Total Distance: %1$s miles</string>

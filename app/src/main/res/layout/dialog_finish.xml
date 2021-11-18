@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="@string/movement_recap"
+        android:text="@string/route_recap"
         android:textColor="@color/black"
         android:textSize="24sp" />
 
