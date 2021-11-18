@@ -14,9 +14,9 @@ class HistoryViewModel : ViewModel() {
     val moves: StateFlow<List<Moves>> = _moves
     fun getMoves(context: Context) {
         viewModelScope.launch {
-            val moveslist = MoveDatabase.getDatabase(context)?.moveDAO()?.getAll()
-            moveslist?.let {
-                _moves.value = moveslist
+            val movesList = MoveDatabase.getDatabase(context)?.moveDAO()?.getAll()
+            movesList?.let {
+                _moves.value = movesList
             }
         }
 

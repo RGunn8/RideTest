@@ -11,6 +11,7 @@ import android.content.Intent
 import android.location.Location
 import android.os.Build
 import android.os.Looper
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
@@ -33,7 +34,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import kotlin.math.acos
 import kotlin.math.cos
@@ -142,7 +142,10 @@ class LocationService : LifecycleService() {
                 result.locations.let { locations ->
                     for (location in locations) {
                         addPathPoint(location)
-                        Timber.d("NEW LOCATION: " + location.latitude + ", " + location.longitude)
+                        Log.d(
+                            "Test",
+                            "NEW LOCATION: " + location.latitude + ", " + location.longitude
+                        )
                     }
                 }
             }
@@ -174,12 +177,16 @@ class LocationService : LifecycleService() {
                 }
                 pathPoints.emit(pos)
 
-                if (distance[0] <= destination.value.radius) {
-                    killService()
-                    finishedRide.value = true
-                    isTracking.value = false
-                }
+                checkIfUserReachDestination(distance)
             }
+        }
+    }
+
+    private fun checkIfUserReachDestination(distance: FloatArray) {
+        if (distance[0] <= destination.value.radius) {
+            killService()
+            finishedRide.value = true
+            isTracking.value = false
         }
     }
 

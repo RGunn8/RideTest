@@ -46,7 +46,7 @@ class HomeFragment : Fragment() {
 
     private var map: GoogleMap? = null
 
-    private val path = mutableListOf<LatLng>()
+    private val currentPath = mutableListOf<LatLng>()
 
     lateinit var homeViewModel: HomeViewModel
 
@@ -61,6 +61,8 @@ class HomeFragment : Fragment() {
             val mapFragment =
                 childFragmentManager.findFragmentById(R.id.map_view) as SupportMapFragment
             startLocationService(mapFragment)
+        } else {
+            //No permission to use location
         }
     }
 
@@ -79,37 +81,41 @@ class HomeFragment : Fragment() {
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_view) as SupportMapFragment
         if (!requireContext().hasLocationPermission()) {
-            MaterialAlertDialogBuilder(requireContext()).setTitle("Location Permmsion")
-                .setMessage("This app need to be able to track location to work so please accept location permission")
-                .setPositiveButton(
-                    "okay"
-                ) { dialog, _ ->
-                    run {
-                        locationPermissionRequest.launch(
-                            arrayOf(
-                                Manifest.permission.ACCESS_COARSE_LOCATION,
-                                Manifest.permission.ACCESS_FINE_LOCATION
-                            )
-                        )
-                        dialog.dismiss()
-                    }
-                }.show()
+            showLocationPermissionRationaleDialog()
         } else {
             startLocationService(mapFragment)
         }
+    }
+
+    private fun showLocationPermissionRationaleDialog() {
+        MaterialAlertDialogBuilder(requireContext()).setTitle(getString(R.string.location_permission))
+            .setMessage(getString(R.string.location_permission_detail))
+            .setPositiveButton(
+                getString(R.string.okay)
+            ) { dialog, _ ->
+                run {
+                    locationPermissionRequest.launch(
+                        arrayOf(
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        )
+                    )
+                    dialog.dismiss()
+                }
+            }.show()
     }
 
     @SuppressLint("MissingPermission")
     private fun startLocationService(mapFragment: SupportMapFragment) {
         sendCommand(Constants.ACTION_INITIAL)
         binding.apply {
-            mapFragment.getMapAsync {
-                map = it
+            mapFragment.getMapAsync { asyncMap ->
+                map = asyncMap
                 if (requireContext().hasLocationPermission()) {
                     map?.isMyLocationEnabled = true
                 }
-                map?.setOnMapClickListener {
-                    onMapItemClick(it)
+                map?.setOnMapClickListener { latLon ->
+                    onMapItemClick(latLon)
                 }
                 collectLocationServiceFlows()
             }
@@ -119,7 +125,7 @@ class HomeFragment : Fragment() {
     private fun onMapItemClick(it: LatLng) {
         map?.clear()
         map?.addMarker(MarkerOptions().position(it))
-        val circle = CircleOptions().center(it).radius(60.0).visible(false)
+        val circle = CircleOptions().center(it).radius(Constants.RADIUS).visible(false)
         LocationService.destination.value = circle
         map?.addCircle(circle)
         showStartButtons()
@@ -131,16 +137,7 @@ class HomeFragment : Fragment() {
             clearButton.visibility = View.VISIBLE
             timeTextView.visibility = View.VISIBLE
             startButton.setOnClickListener {
-                path.clear()
-                sendCommand(Constants.ACTION_START_OR_RESUME)
-                distanceTravel.value = 0f
-                timeRunInMillis.value = 0
-                currentDistance = 0.0
-                startLocation.value =
-                    LatLng(currentLocation.value!!.latitude, currentLocation.value!!.longitude)
-                map?.setOnMapClickListener { }
-                hideStartButtons()
-                showFinishButtons()
+                onStartButtonClick()
             }
             clearButton.setOnClickListener {
                 clear()
@@ -148,9 +145,24 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun onStartButtonClick() {
+        currentPath.clear()
+        sendCommand(Constants.ACTION_START_OR_RESUME)
+        distanceTravel.value = 0f
+        timeRunInMillis.value = 0
+        currentDistance = 0.0
+        currentLocation.value?.let { currentLocation ->
+            startLocation.value =
+                LatLng(currentLocation.latitude, currentLocation.longitude)
+        }
+        map?.setOnMapClickListener { }
+        hideStartButtons()
+        showFinishButtons()
+    }
+
     private fun zoomToSeeWholeTrack() {
         val bounds = LatLngBounds.Builder()
-        for (latLon in path) {
+        for (latLon in currentPath) {
             bounds.include(latLon)
         }
 
@@ -213,7 +225,7 @@ class HomeFragment : Fragment() {
         hideStartButtons()
         timeInStopWatchTime.value = "00:00:00"
         distanceTravel.value = 0f
-        path.clear()
+        currentPath.clear()
     }
 
     private fun collectLocationServiceFlows() {
@@ -281,7 +293,7 @@ class HomeFragment : Fragment() {
 
 
     private fun addLatestPolyline(latLng: LatLng) {
-        path.add(latLng)
+        currentPath.add(latLng)
         if (pathPoints.replayCache.isNotEmpty()) {
             val preLastLatLng = pathPoints.replayCache[0]
             val polylineOptions = PolylineOptions()

@@ -14,7 +14,6 @@ import com.ryangunn.ridetest.database.MoveDatabase
 import com.ryangunn.ridetest.database.model.Moves
 import com.ryangunn.ridetest.databinding.DialogFinishBinding
 import kotlinx.coroutines.launch
-import java.text.DecimalFormat
 
 
 class FinishDialog : DialogFragment() {
@@ -55,12 +54,9 @@ class FinishDialog : DialogFragment() {
     private fun displayMove(move: Moves) {
         binding.apply {
             moveImageView.setImageBitmap(move.img)
-            val df = DecimalFormat("#.00")
-            val mileString = df.format(move.distance)
-            val miles = "Miles: $mileString"
-            val duration = "Duration: ${move.time}"
-            distanceTextView.text = miles
-            timeTextView.text = duration
+            distanceTextView.text =
+                getString(R.string.move_total_distance, move.getDistanceInString())
+            timeTextView.text = getString(R.string.move_total_time, move.time)
             okayTextView.setOnClickListener { dismiss() }
         }
     }

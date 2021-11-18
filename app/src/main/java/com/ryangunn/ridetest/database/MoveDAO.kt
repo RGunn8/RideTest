@@ -10,7 +10,7 @@ interface MoveDAO {
     @Insert
     suspend fun insertMove(move: Moves): Long
 
-    @Query("SELECT * FROM moves")
+    @Query("SELECT * FROM moves ORDER BY moveId asc")
     suspend fun getAll(): List<Moves>
 
     @Query("SELECT * FROM moves WHERE moveId == :moveId")
