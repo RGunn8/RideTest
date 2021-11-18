@@ -29,8 +29,6 @@ to my current location the distance was 0. So I just cacluated the distance betw
 
 (PS if for some reason you get an error that said the BuildConfig file has been build twice just clean the project and re run the project) 
 
-[url=https://postimg.cc/grqrXXJY][img]https://i.postimg.cc/grqrXXJY/Screen-Shot-2021-11-18-at-10-28-44-AM.png[/img][/url]
+[![Screen-Shot-2021-11-18-at-10-29-16-AM.png](https://i.postimg.cc/dDMJ9qXL/Screen-Shot-2021-11-18-at-10-29-16-AM.png)](https://postimg.cc/FkZtrQh4)
 
-[url=https://postimg.cc/DmK8wd7j][img]https://i.postimg.cc/DmK8wd7j/Screen-Shot-2021-11-18-at-10-28-55-AM.png[/img][/url]
-
-[url=https://postimg.cc/FkZtrQh4][img]https://i.postimg.cc/FkZtrQh4/Screen-Shot-2021-11-18-at-10-29-16-AM.png[/img][/url]
+[![Screen-Shot-2021-11-18-at-10-28-55-AM.png](https://i.postimg.cc/MZnRtdNS/Screen-Shot-2021-11-18-at-10-28-55-AM.png)](https://postimg.cc/DmK8wd7j)
