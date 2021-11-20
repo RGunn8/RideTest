@@ -54,7 +54,7 @@ class LocationService : LifecycleService() {
         val pathPoints: MutableSharedFlow<LatLng> = MutableSharedFlow(2)
         val currentLocation: MutableStateFlow<Location?> = MutableStateFlow(null)
         val timeInStopWatchTime = MutableStateFlow("")
-        val finishedRide = MutableStateFlow(false)
+        val finishedRide = MutableSharedFlow<Boolean>()
         val distanceTravel = MutableStateFlow(0f)
     }
 
@@ -182,10 +182,10 @@ class LocationService : LifecycleService() {
         }
     }
 
-    private fun checkIfUserReachDestination(distance: FloatArray) {
+    private suspend fun checkIfUserReachDestination(distance: FloatArray) {
         if (distance[0] <= destination.value.radius) {
             killService()
-            finishedRide.value = true
+            finishedRide.emit(true)
             isTracking.value = false
         }
     }

@@ -162,6 +162,9 @@ class HomeFragment : Fragment() {
 
     private fun zoomToSeeWholeTrack() {
         val bounds = LatLngBounds.Builder()
+        if (currentPath.isEmpty()) {
+            return
+        }
         for (latLon in currentPath) {
             bounds.include(latLon)
         }
